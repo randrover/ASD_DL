@@ -64,7 +64,7 @@ meta$SAMPLE = gsub(x = meta$SAMPLE, pattern = 'SAMPLE=', replacement = '', fixed
 meta$tid = paste(meta$SAMPLE, meta$names, sep = '|')
 
 t2 = meta %>%
-  filter(SAMPLE %in% s0$vcf_iid)
+  filter(SAMPLE %in% s0$SAMPLE)
 t2 = t2 %>%
   dplyr::select(-width, -names, -INFO)
 t2 = unique(t2)
@@ -145,7 +145,7 @@ head(d1)
 d2 = d1 %>%
   dplyr::select(seqnames, start, end, strand, transcript_id, TSS, hgnc_id)
 d2$transcript_id = do.call(rbind.data.frame, strsplit(x = d2$transcript_id, split = '.', fixed = T))[[1]]
-mg$transcript_id = do.call(rbind.data.frame, strsplit(x = mg$transcript_id, split = '.', fixed = T))[[1]]
+# mg$transcript_id = do.call(rbind.data.frame, strsplit(x = mg$transcript_id, split = '.', fixed = T))[[1]]
 mg$nearest_TSS_transcript_id = do.call(rbind.data.frame, strsplit(x = mg$nearest_TSS_transcript_id, split = '.', fixed = T))[[1]]
 mg2 = merge(mg,
             d2,
@@ -209,7 +209,7 @@ meta$SAMPLE = gsub(x = meta$SAMPLE, pattern = 'SAMPLE=', replacement = '', fixed
 meta$tid = paste(meta$SAMPLE, meta$names, sep = '|')
 
 t2 = meta %>%
-  filter(SAMPLE %in% s0$vcf_iid)
+  filter(SAMPLE %in% s0$SAMPLE)
 t2 = t2 %>%
   dplyr::select(-width, -names, -INFO)
 t2 = unique(t2)
@@ -284,13 +284,11 @@ mg$fin_gene_name = ifelse(mg$is_coding==1,
 #   dplyr::count() %>%
 #   arrange(-n) %>%
 #   View()
-head(mg)
 
-head(d1)
 d2 = d1 %>%
   dplyr::select(seqnames, start, end, strand, transcript_id, TSS, hgnc_id)
 d2$transcript_id = do.call(rbind.data.frame, strsplit(x = d2$transcript_id, split = '.', fixed = T))[[1]]
-mg$transcript_id = do.call(rbind.data.frame, strsplit(x = mg$transcript_id, split = '.', fixed = T))[[1]]
+# mg$transcript_id = do.call(rbind.data.frame, strsplit(x = mg$transcript_id, split = '.', fixed = T))[[1]]
 mg$nearest_TSS_transcript_id = do.call(rbind.data.frame, strsplit(x = mg$nearest_TSS_transcript_id, split = '.', fixed = T))[[1]]
 mg2 = merge(mg,
             d2,
