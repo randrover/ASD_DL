@@ -23,7 +23,8 @@ nrow(s0)
 write.table(dnv2 %>%
               dplyr::select(-SAMPLE,
                             -isASD,
-                            -cohort),
+                            -cohort,
+                            -PHENOTYPE),
             paste('~/Dropbox/Noncoding_kor_ASD_WD/Data/Korean_SFARI_MSSNG_WGS_autosomal_DNV.14606samples', date, 'vcf',
                   sep = '.'),
             quote = F, row.names = F, col.names = T, sep = '\t')
