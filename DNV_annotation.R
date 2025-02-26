@@ -110,7 +110,7 @@ table(f_mg$COHORT,
 
 
 data.table::fwrite(f_mg %>%
-                     dplyr::select(-tid),
+                     dplyr::select(-CHROM, -POS),
                    paste('~/Dropbox/AI_NDD/Data/variants/Korean_SFARI_MSSNG.DNV_list.annotated', date, 'tsv.gz', sep = '.'),
                    quote = F, row.names = F, col.names = T, sep = '\t',
                    compress="gzip")
