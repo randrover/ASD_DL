@@ -42,7 +42,7 @@ mg = merge(dnv %>%
            by.y = 'var_id')
 
 mg = mg %>%
-  dplyr::select(variant = ID, SAMPLE, MPC, is_MissenseRegion)
+  dplyr::select(variant = ID, SAMPLE, MPC, is_MissenseRegion, is_PromoterRegion, is_UTRsRegion)
 miss = mg %>%
   filter(is_MissenseRegion==1)
 
@@ -59,6 +59,20 @@ dMIS = miss %>%
   filter(!is.na(MPC)) %>%
   filter(MPC>=2)
 dMIS = dMIS %>%
+  mutate(tid = paste(SAMPLE,
+                     variant,
+                     sep = ':'))
+
+## promoter
+prom = mg %>%
+  filter(is_PromoterRegion == 1) %>%
+  mutate(tid = paste(SAMPLE,
+                     variant,
+                     sep = ':'))
+
+## UTR
+UTR = mg %>%
+  filter(is_UTRsRegion == 1) %>%
   mutate(tid = paste(SAMPLE,
                      variant,
                      sep = ':'))
@@ -85,6 +99,12 @@ mg2$is_modMIS = ifelse(mg2$tid %in% modMIS$tid,
 mg2$is_dMIS = ifelse(mg2$tid %in% dMIS$tid,
                      1,
                      0)
+mg2$is_promoter = ifelse(mg2$tid %in% prom$tid,
+                         1,
+                         0)
+mg2$is_UTR = ifelse(mg2$tid %in% UTR$tid,
+                    1,
+                    0)
 
 mg3 = merge(mg2,
             dnv2 %>%
@@ -94,7 +114,7 @@ mg3 = merge(mg2,
 mg3 = mg3 %>%
   dplyr::select(SAMPLE, variant,
                 gene_id, gene_name,
-                12:31)
+                12:33)
 
 data.table::fwrite(mg3,
                    paste('~/Dropbox/Noncoding_kor_ASD_WD/Tables/table.kor_sfari_mssng.DNV_annotated.coding_combinations', date, 'tsv.gz',
