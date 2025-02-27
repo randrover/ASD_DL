@@ -5,9 +5,10 @@ date = '20250226'
 ###### Coding
 ## Cell type gene
 gm = read.delim('~/Dropbox/gene-mat-recipe/gene_matrix_20231221.txt')
+gm$gene_id = do.call(rbind.data.frame, strsplit(x = gm$gene_id, split = '.', fixed = T))[[1]]
+
 ct_g = gm %>%
   dplyr::select(1:2, 10:22)
-
 colnames(gm)
 ## ASD gene set
 asd_g = gm %>%
@@ -85,7 +86,8 @@ dnv = data.table::fread('~/Dropbox/AI_NDD/Data/variants/Korean_SFARI_MSSNG.DNV_l
 mg1 = merge(dnv %>%
               dplyr::select(-gene_name),
             ct_g,
-            by = 'gene_id')
+            by = 'gene_id',
+            all.x = T)
 mg2 = merge(mg1,
             asd_g %>%
               dplyr::select(-gene_name),
