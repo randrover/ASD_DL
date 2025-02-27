@@ -124,6 +124,9 @@ dnv = dnv %>%
   dplyr::select(SAMPLE, variant, tid, gene_id, gene_name, most_severe_consequence, is_coding,
                 transcript_id)
 
+t2$nearest_TSS_transcript_id = do.call(rbind.data.frame, strsplit(x = t2$nearest_TSS_transcript_id, split = '.', fixed = T))[[1]]
+t2$nearest_TSS_gene_id = do.call(rbind.data.frame, strsplit(x = t2$nearest_TSS_gene_id, split = '.', fixed = T))[[1]]
+
 mg = merge(dnv, t2,
            by = 'tid')
 
@@ -133,20 +136,9 @@ mg$fin_gene_id = ifelse(mg$is_coding==1,
 mg$fin_gene_name = ifelse(mg$is_coding==1,
                           mg$gene_name,
                           mg$nearest_TSS_gene_name)
-# mg %>%
-#   filter(is_coding==1) %>%
-#   group_by(fin_gene_id, most_severe_consequence) %>%
-#   dplyr::count() %>%
-#   arrange(-n) %>%
-#   View()
-head(mg)
-
-head(d1)
 d2 = d1 %>%
   dplyr::select(seqnames, start, end, strand, transcript_id, TSS, hgnc_id)
 d2$transcript_id = do.call(rbind.data.frame, strsplit(x = d2$transcript_id, split = '.', fixed = T))[[1]]
-# mg$transcript_id = do.call(rbind.data.frame, strsplit(x = mg$transcript_id, split = '.', fixed = T))[[1]]
-mg$nearest_TSS_transcript_id = do.call(rbind.data.frame, strsplit(x = mg$nearest_TSS_transcript_id, split = '.', fixed = T))[[1]]
 mg2 = merge(mg,
             d2,
             by = 'transcript_id',
@@ -269,6 +261,9 @@ dnv = dnv %>%
   dplyr::select(SAMPLE, variant, tid, gene_id, gene_name, most_severe_consequence, is_coding,
                 transcript_id)
 
+t2$nearest_TSS_transcript_id = do.call(rbind.data.frame, strsplit(x = t2$nearest_TSS_transcript_id, split = '.', fixed = T))[[1]]
+t2$nearest_TSS_gene_id = do.call(rbind.data.frame, strsplit(x = t2$nearest_TSS_gene_id, split = '.', fixed = T))[[1]]
+
 mg = merge(dnv, t2,
            by = 'tid')
 
@@ -278,18 +273,11 @@ mg$fin_gene_id = ifelse(mg$is_coding==1,
 mg$fin_gene_name = ifelse(mg$is_coding==1,
                           mg$gene_name,
                           mg$nearest_TSS_gene_name)
-# mg %>%
-#   filter(is_coding==1) %>%
-#   group_by(fin_gene_id, most_severe_consequence) %>%
-#   dplyr::count() %>%
-#   arrange(-n) %>%
-#   View()
 
 d2 = d1 %>%
   dplyr::select(seqnames, start, end, strand, transcript_id, TSS, hgnc_id)
 d2$transcript_id = do.call(rbind.data.frame, strsplit(x = d2$transcript_id, split = '.', fixed = T))[[1]]
-# mg$transcript_id = do.call(rbind.data.frame, strsplit(x = mg$transcript_id, split = '.', fixed = T))[[1]]
-mg$nearest_TSS_transcript_id = do.call(rbind.data.frame, strsplit(x = mg$nearest_TSS_transcript_id, split = '.', fixed = T))[[1]]
+
 mg2 = merge(mg,
             d2,
             by = 'transcript_id',
