@@ -42,7 +42,7 @@ mg = merge(dnv %>%
            by.y = 'var_id')
 
 mg = mg %>%
-  dplyr::select(variant = ID, SAMPLE, MPC, is_MissenseRegion, is_PromoterRegion, is_UTRsRegion)
+  dplyr::select(variant = ID, SAMPLE, MPC, is_MissenseRegion, is_PromoterRegion, is_UTRsRegion, is_CodingRegion)
 miss = mg %>%
   filter(is_MissenseRegion==1)
 
@@ -114,6 +114,7 @@ mg3 = merge(mg2,
 mg3 = mg3 %>%
   dplyr::select(SAMPLE, variant,
                 gene_id, gene_name,
+                is_coding,
                 12:33)
 
 data.table::fwrite(mg3,
