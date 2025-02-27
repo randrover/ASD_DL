@@ -131,7 +131,53 @@ python /data2/deepLN/organize_cutoff_new_df.filter.py -file_path /data2/deepLN/a
 -cutoffs 0.2 0.4 0.6 0.8 \
 -output_path /data2/deepLN/annot_v7/kor_sfari_mssng.phastCons46wayVt.20250226.cutoff_applied.tsv.gz
 
+python /data2/deepLN/organize_cutoff_new_df.filter.py \
+-file_path /data2/deepLN/table.kor_sfari_mssng_14606.motif_diff_by_var.20241225.tsv.gz \
+-cutoffs 8 10 \
+-output_path /data2/deepLN/annot_v7/noncoding_DNV.kor_sfari_mssng.motif.20241225.cutoff_applied.tsv.gz \
+-prefix "nc" \
+--max_workers 30 \
+-filter_variant_file /data2/deepLN/variants/kor_sfari_mssng.noncoding_DNV.20250226.tsv.gz
+
+python /data2/deepLN/organize_cutoff_new_df.filter.py \
+-file_path /data2/deepLN/table.kor_sfari_mssng_14606.motif_diff_by_var.20241225.tsv.gz \
+-cutoffs -8 -10 \
+-output_path /data2/deepLN/annot_v7/under_noncoding_DNV.kor_sfari_mssng.motif.20241225.cutoff_applied.tsv.gz \
+-prefix "nc" \
+--under --max_workers 30 \
+-filter_variant_file /data2/deepLN/variants/kor_sfari_mssng.noncoding_DNV.20250226.tsv.gz
+
+python /data2/deepLN/organize_cutoff_new_df.filter.py \
+-file_path /data2/deepLN/table.kor_sfari_mssng_14606.motif_diff_by_var.20241225.tsv.gz \
+-cutoffs 8 10 \
+-output_path /data2/deepLN/annot_v7/coding.kor_sfari_mssng.motif.20241225.cutoff_applied.tsv.gz \
+-prefix "cd" \
+--max_workers 30 \
+-filter_variant_file /data2/deepLN/variants/kor_sfari_mssng.coding_DNV.20250227.tsv.gz
+
+python /data2/deepLN/organize_cutoff_new_df.filter.py \
+-file_path /data2/deepLN/table.kor_sfari_mssng_14606.motif_diff_by_var.20241225.tsv.gz \
+-cutoffs -8 -10 \
+-output_path /data2/deepLN/annot_v7/under_coding.kor_sfari_mssng.motif.20241225.cutoff_applied.tsv.gz \
+-prefix "cd" \
+--under --max_workers 30 \
+-filter_variant_file /data2/deepLN/variants/kor_sfari_mssng.coding_DNV.20250227.tsv.gz
+
+python /data2/deepLN/organize_cutoff_new_df.filter.py \
+-file_path /data2/deepLN/table.kor_sfari_mssng_14606.motif_diff_by_var.20241225.tsv.gz \
+-cutoffs 8 10 \
+-output_path /data2/deepLN/annot_v7/kor_sfari_mssng_14606.motif.20241225.cutoff_applied.tsv.gz \
+-prefix "all" \
+--max_workers 30
+
+python /data2/deepLN/organize_cutoff_new_df.filter.py \
+-file_path /data2/deepLN/table.kor_sfari_mssng_14606.motif_diff_by_var.20241225.tsv.gz \
+-cutoffs -8 -10 \
+-output_path /data2/deepLN/annot_v7/under.kor_sfari_mssng_14606.motif.20241225.cutoff_applied.tsv.gz \
+-prefix "all" \
+--under --max_workers 30
+
 python merge_by_sample.ec2.py \
--file_with_label /data2/deepLN/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v31_tmp.zarr \
+-file_with_label /data2/deepLN/train/data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v31_tmp.zarr \
 -other_files /data2/deepLN/annot_v7/by_sample/* \
--output_file /data2/deepLN/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v31.zarra
+-output_file /data2/deepLN/train/data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v31.zarr
