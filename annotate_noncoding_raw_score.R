@@ -91,7 +91,7 @@ mg1 = merge(dnv %>%
 mg2 = merge(mg1,
             asd_g %>%
               dplyr::select(-gene_name),
-            by = 'gene_id')
+            by = 'gene_id', all.x = T)
 mg2$is_PTV = ifelse(mg2$tid %in% ptv$tid,
                     1,
                     0)
