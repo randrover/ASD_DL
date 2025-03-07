@@ -27,7 +27,7 @@ echo "Running coding_noncoding_gather.py..."
 python coding_noncoding_gather.py \
   --zarr_input "$OUTPUT_PATH2" \
   --zarr_output "/data2/deepLN/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v31_tmp.zarr" \
-  --coding_combinations "/data2/deepLN/kor_sfari_mssng.coding_combinations.agg_by_sample.20250227.tsv.gz"
+  --coding_combinations "/data2/deepLN/kor_sfari_mssng.coding_combinations.agg_by_sample.20250307.tsv.gz"
 
 echo "All scripts completed successfully!"
 
