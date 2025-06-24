@@ -4,7 +4,7 @@ date = '20250226'
 
 ###### Coding
 ## Cell type gene
-gm = read.delim('~/Dropbox/gene-mat-recipe/gene_matrix_20231221.txt')
+gm = read.delim('gene_matrix_20231221.txt')
 gm$gene_id = do.call(rbind.data.frame, strsplit(x = gm$gene_id, split = '.', fixed = T))[[1]]
 
 ct_g = gm %>%
@@ -15,9 +15,10 @@ asd_g = gm %>%
   dplyr::select(1:2, 5:7, 9)
 
 ## PTV
-dnv = data.table::fread('~/Dropbox/CWAS_outputs/Output_kor_sfari_mssng_20250226/Run_20250226/Kor_SFARI_MSSNG.v5.output.annotation_v8/extract_var/Korean_SFARI_MSSNG_WGS_autosomal_DNV.14606samples.sorted.20250226.extracted_variants.txt.gz')
+dnv = data.table::fread('Korean_SFARI_MSSNG_WGS_autosomal_DNV.14606samples.sorted.20250226.extracted_variants.txt.gz')
 ptv = dnv %>%
-  filter(is_PTVRegion==1)
+  filter(is_PTVRegion==1) %>%
+  filter(LOEUF37==1)
 # dnv$LOEUF37
 ptv = ptv %>%
   dplyr::select(SAMPLE, variant = ID) %>%
@@ -26,7 +27,7 @@ ptv = ptv %>%
                      sep = ':'))
 
 ## Missense
-dnv2 = data.table::fread('~/Dropbox/CWAS_outputs/Output_kor_sfari_mssng_20250226/Run_20250226/Kor_SFARI_MSSNG.v5.output.annotation_v8/extract_var/Korean_SFARI_MSSNG_WGS_autosomal_DNV.14606samples.sorted.20250226.extracted_variants.txt.gz')
+dnv2 = data.table::fread('Korean_SFARI_MSSNG_WGS_autosomal_DNV.14606samples.sorted.20250226.extracted_variants.txt.gz')
 # dnv2$MisDb_MPC
 dnv2$MPC = as.numeric(dnv2$MisDb_MPC)
 dnv2 = dnv2 %>%
@@ -81,7 +82,7 @@ UTR = mg %>%
 
 
 ## nearest gene
-dnv = data.table::fread('~/Dropbox/AI_NDD/Data/variants/Korean_SFARI_MSSNG.DNV_list.all_nearest_transcript.20250226.tsv.gz') %>%
+dnv = data.table::fread('Korean_SFARI_MSSNG.DNV_list.all_nearest_transcript.20250226.tsv.gz') %>%
   mutate(tid = paste(SAMPLE, variant, sep = ':'))
 mg1 = merge(dnv %>%
               dplyr::select(-gene_name),
@@ -120,7 +121,7 @@ mg3 = mg3 %>%
                 12:33)
 
 data.table::fwrite(mg3,
-                   paste('~/Dropbox/Noncoding_kor_ASD_WD/Tables/table.kor_sfari_mssng.DNV_annotated.coding_combinations', date, 'tsv.gz',
+                   paste('table.kor_sfari_mssng.DNV_annotated.coding_combinations', date, 'tsv.gz',
                          sep = '.'),
                    quote = F, row.names = F, col.names = T, sep = '\t',
                    compress="gzip")
