@@ -4,7 +4,7 @@ import pandas as pd
 
 print('Load Enformer', flush=True)
 
-enformer_path = '/data1/deepLN/Enformer/enformer_result_kor_909_sfari_mssng.zarr'
+enformer_path = 'enformer_result_kor_909_sfari_mssng.zarr'
 
 root = zarr.open(enformer_path, mode='r')
 mat = root['data']
@@ -15,7 +15,7 @@ samples = root['metadata'].attrs['samples']
 print(mat.shape, flush=True)
 
 # Read the Excel file
-df = pd.read_excel("/data1/deepLN/Enformer/Enformer_training_features_Brain.xlsx", engine="openpyxl")
+df = pd.read_excel("Enformer_training_features_Brain.xlsx", engine="openpyxl")
 
 # Display the first few rows
 print(df.head())
@@ -41,7 +41,7 @@ print("Filtered", flush=True)
 
 print(mat_filtered.shape)
 
-output_path = '/data1/deepLN/Enformer/enformer_result_kor_909_sfari_mssng_only_brain386.zarr'
+output_path = 'enformer_result_kor_909_sfari_mssng_only_brain386.zarr'
 root = zarr.open(output_path, mode='w')
 
 # Create metadata group and add attributes
