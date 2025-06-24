@@ -55,11 +55,11 @@ def main():
     enformer_sei_puffin_df.reset_index(inplace=True)
     enformer_sei_puffin_df.rename(columns={'index': 'SAMPLE'}, inplace=True)
 
-    motif = pd.read_table('/data2/deepLN/table.kor_sfari_mssng_14606.motif_diff_by_var.20241225.tsv.gz')
+    motif = pd.read_table('table.kor_sfari_mssng_14606.motif_diff_by_var.20241225.tsv.gz')
 
     filter_variant = pd.read_table(args.filter_variant)
 
-    dnv = pd.read_table('/data2/deepLN/table.kor_sfari_mssng.DNV_annotated.noncoding_raw_score.20250226.tsv.gz')
+    dnv = pd.read_table('table.kor_sfari_mssng.DNV_annotated.noncoding_raw_score.20250226.tsv.gz')
 
     dnv = dnv[['is_coding', 'variant', 'SAMPLE']]
 
