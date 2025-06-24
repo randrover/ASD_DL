@@ -6,7 +6,6 @@ import sys
 # Function to run a single job
 def run_job(i):
     current_group_list = ['all', 'noncoding', 'coding']
-    # 'Other', 'Sig90', 'Sig80', 'Sig70', 'Sig60', 'Sig50', 'Sig30', 'Sig10', 'Sig5', 'Sig3', 'Sig1', 'Sig08', 'Sig05', 'Sig03', 'Sig02', 'Sig01'
 
     # Define local paths for inputs and outputs
     input_path = '/data1/deepLN/train/data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v27.modelA_train.zarr'
