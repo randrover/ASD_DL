@@ -7,7 +7,7 @@ library(motifbreakR)
 rm(list = ls())
 date = '20250226'
 
-dnv = data.table::fread('~/Dropbox/CWAS_outputs/Output_kor_sfari_mssng_20250226/Run_20250226/Kor_SFARI_MSSNG.v5.output.annotation_v8/extract_var/Korean_SFARI_MSSNG_WGS_autosomal_DNV.14606samples.sorted.20250226.extracted_variants.txt.gz')
+dnv = data.table::fread('Korean_SFARI_MSSNG_WGS_autosomal_DNV.14606samples.sorted.20250226.extracted_variants.txt.gz')
 
 # table(is.na(dnv$Consequence))
 
@@ -24,11 +24,11 @@ dnv = dnv %>%
                 most_severe_consequence, gene_id, gene_name, transcript_id,
                 is_coding)
 
-s0 = read.delim('~/Dropbox/Noncoding_kor_ASD_WD/Data/Korean_SFARI_MSSNG.14606samples.sample_list.20250224.txt')
+s0 = read.delim('Korean_SFARI_MSSNG.14606samples.sample_list.20250224.txt')
 
 #### Annotate gene and TSS
 # Load GTF file
-d0 = d0 <- rtracklayer::import('~/Dropbox/Resources/gencode.v44.basic.annotation.gtf.gz') %>%
+d0 = d0 <- rtracklayer::import('gencode.v44.basic.annotation.gtf.gz') %>%
   as.data.frame()
 
 ######################## coding ########################
@@ -38,7 +38,7 @@ g1 = g1 %>%
 g1 = unique(g1)
 coding_genes = g1$gene_id
 
-d0 <- rtracklayer::import('~/Dropbox/Resources/gencode.v44.basic.annotation.gtf.gz') %>%
+d0 <- rtracklayer::import('gencode.v44.basic.annotation.gtf.gz') %>%
   as.data.frame() %>%
   filter(type == 'transcript')
 
@@ -50,7 +50,7 @@ d1 = d1 %>%
   filter(gene_id %in% coding_genes)
 
 hs.genome = BSgenome.Hsapiens.UCSC.hg38::BSgenome.Hsapiens.UCSC.hg38
-vcf = '~/Dropbox/Noncoding_kor_ASD_WD/Data/Korean_SFARI_MSSNG_WGS_autosomal_DNV.14606samples.sorted.20250226.vcf.gz'
+vcf = 'Korean_SFARI_MSSNG_WGS_autosomal_DNV.14606samples.sorted.20250226.vcf.gz'
 variants <- motifbreakR::variants.from.file(file = vcf,
                                             search.genome = hs.genome,
                                             format = "vcf")
@@ -164,7 +164,7 @@ mg2 = mg2 %>%
 colnames(mg2) = gsub(x = colnames(mg2), pattern = 'fin_', replacement = '', fixed = T)
 
 data.table::fwrite(mg2,
-                   paste('~/Dropbox/AI_NDD/Data/variants/Korean_SFARI_MSSNG.DNV_list.coding_gene_nearest_transcript', date, 'tsv.gz',
+                   paste('Korean_SFARI_MSSNG.DNV_list.coding_gene_nearest_transcript', date, 'tsv.gz',
                          sep = '.'),
                    quote = F, row.names = F, col.names = T, sep = '\t',
                    compress="gzip")
@@ -178,7 +178,7 @@ g1 = g1 %>%
 g1 = unique(g1)
 coding_genes = g1$gene_id
 
-d0 <- rtracklayer::import('~/Dropbox/Resources/gencode.v44.basic.annotation.gtf.gz') %>%
+d0 <- rtracklayer::import('gencode.v44.basic.annotation.gtf.gz') %>%
   as.data.frame() %>%
   filter(type == 'transcript')
 
@@ -187,7 +187,7 @@ d1 <- d0 %>%
   mutate(TSS = ifelse(strand == '+', start, end))
 
 hs.genome = BSgenome.Hsapiens.UCSC.hg38::BSgenome.Hsapiens.UCSC.hg38
-vcf = '~/Dropbox/Noncoding_kor_ASD_WD/Data/Korean_SFARI_MSSNG_WGS_autosomal_DNV.14606samples.sorted.20250226.vcf.gz'
+vcf = 'Korean_SFARI_MSSNG_WGS_autosomal_DNV.14606samples.sorted.20250226.vcf.gz'
 variants <- motifbreakR::variants.from.file(file = vcf,
                                             search.genome = hs.genome,
                                             format = "vcf")
@@ -303,7 +303,7 @@ mg2 = mg2 %>%
 colnames(mg2) = gsub(x = colnames(mg2), pattern = 'fin_', replacement = '', fixed = T)
 
 data.table::fwrite(mg2,
-                   paste('~/Dropbox/AI_NDD/Data/variants/Korean_SFARI_MSSNG.DNV_list.all_nearest_transcript', date, 'tsv.gz',
+                   paste('Korean_SFARI_MSSNG.DNV_list.all_nearest_transcript', date, 'tsv.gz',
                          sep = '.'),
                    quote = F, row.names = F, col.names = T, sep = '\t',
                    compress="gzip")
