@@ -2,7 +2,7 @@ rm(list = ls())
 library(tidyverse)
 date = '20250306'
 
-mf1 = read.delim('~/Dropbox/Noncoding_kor_ASD_WD/Tables/model_res_20250228/new_agg_v31_modelA/kor_sfari_mssng.feature_selection_4L.shap.mean.tsv.gz')
+mf1 = read.delim('kor_sfari_mssng.feature_selection_4L.shap.mean.tsv.gz')
 
 # Define a function to extract top N% based on the MeanSHAP column
 get_top_percent <- function(df, column_name, percent = 10) {
@@ -89,6 +89,6 @@ if(T){
 
 
 write.table(mf1,
-            paste('~/Dropbox/Noncoding_kor_ASD_WD/Tables/model_res_20250228/new_agg_v31_modelA/table.shap.feature_info_v31', date, 'txt',
+            paste('table.shap.feature_info_v31', date, 'txt',
                   sep = '.'),
             quote = F, row.names = F, col.names = T, sep = '\t')
