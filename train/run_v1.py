@@ -17,7 +17,7 @@ def run_job(i):
         'python3', f'train_{i}L.py',
         '--zarr_path', input_path,
         '--model_dir', '/data1/deepLN/train/train_sagemaker_scripts/model',
-        '--wandb_key', '26ed6c564d5f320f8879b1517bc3f19ae4b1e859',
+        '--wandb_key', 'wandb_api_key',
         '--epochs', '500',
         '--learning_rate', '0.000001',
         '--batch_size', '32',
