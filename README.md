@@ -17,9 +17,6 @@ ASD research with machine learning techniques
 ```
 python train_7L.py \
   --zarr_path your_dataset.zarr \
-  --group_list coding noncoding \
-  --feature_info_path path/to/feature_info.txt \
-  --sample_meta_path path/to/sample_meta.txt \
   --log_file training_log.csv \
   --calculate_importance \
   --importance_method shap \
