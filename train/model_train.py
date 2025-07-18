@@ -51,9 +51,9 @@ def set_output_directory(path):
     os.makedirs(path, exist_ok=True)
     return path
 
-OUT_DIR = set_output_directory('/data1/deepLN/train/train_sagemaker_scripts/autoB_cluster1_fullfeature')
+OUT_DIR = set_output_directory('autoB_cluster1')
 
-input_path = '/data1/deepLN/train/data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v30.modelB_train_1.zarr'
+input_path = 'data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v30.modelB_train_1.zarr'
 
 print("Load zarr directories")
 root = zarr.open(input_path, mode='r')
@@ -64,7 +64,7 @@ train_df = pd.DataFrame(data, columns=column_names, index = sample_ids)
 train_df.index.name = 'SAMPLE'
 train_df.reset_index(inplace=True)
 
-dt = pd.read_table('/data1/deepLN/train/train_sagemaker_scripts/output/new_agg_v27_modelA_train/kor_sfari_mssng.feature_selection_7L.shap.mean.tsv.gz')
+dt = pd.read_table('data/kor_sfari_mssng.feature_selection_7L.shap.mean.tsv.gz')
 
 filtered_train_df = train_df[['label', 'SAMPLE'] + dt['Feature'].tolist()]
 
@@ -106,7 +106,7 @@ ld_board = predictor.leaderboard(train, silent=True)
 ld_board.to_csv(os.path.join(OUT_DIR, 'leaderboard.tsv'), sep='\t', index=False)
 print("Saved leader board.", flush=True)
 
-input_path = '/data1/deepLN/train/data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v30.modelB_test_1.zarr'
+input_path = 'data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v30.modelB_test_1.zarr'
 print("Load zarr directories")
 root = zarr.open(input_path, mode='r')
 column_names = root['metadata'].attrs['columns']
