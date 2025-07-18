@@ -44,7 +44,7 @@ def define_kmeans_background(X_train, n_clusters=10):
     kmeans = KMeans(n_clusters=n_clusters, random_state=42).fit(X_train)
     return torch.tensor(kmeans.cluster_centers_, dtype=torch.float32)
 
-input_path = '/data1/deepLN/train/data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v27.modelA_train.zarr'
+input_path = 'data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v27.modelA_train.zarr'
 
 print("Load zarr directories")
 root = zarr.open(input_path, mode='r')
@@ -55,8 +55,8 @@ train_df = pd.DataFrame(data, columns=column_names, index = sample_ids)
 train_df.index.name = 'SAMPLE'
 train_df.reset_index(inplace=True)
 
-# high_f = pd.read_table('/data1/deepLN/train/train_sagemaker_scripts/output/new_agg_v27_modelA_train_after_fs/kor_sfari_mssng.feature_importance_10L.shap.mean.tsv.gz')
-sorted_high_f = pd.read_table('/data1/deepLN/train/train_sagemaker_scripts/table.coding_noncoding.feature_info_v27.20240428.txt')
+# high_f = pd.read_table('data/kor_sfari_mssng.feature_importance_10L.shap.mean.tsv.gz')
+sorted_high_f = pd.read_table('data/kor_sfari_mssng.feature_selection_7L.shap.mean.tsv.gz')
 
 filtered_columns = sorted_high_f['Feature'].tolist() + ['label']
 train_df_filtered = train_df[filtered_columns]
@@ -70,7 +70,7 @@ scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X_train)
 X_train_tensor=torch.from_numpy(X_scaled.astype('float32')).float().to(device)
 
-zarr_path = '/data1/deepLN/train/data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v27.modelA_test.zarr'
+zarr_path = 'data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v27.modelA_test.zarr'
 
 root = zarr.open(zarr_path, mode='r')
 header = [name.replace(',', '').replace(' ', '_') for name in list(root['metadata'].attrs['columns'])]
@@ -94,26 +94,24 @@ X_test_tensor = torch.from_numpy(X_scaled.astype('float32')).float().to(device)
 y_test_tensor = torch.from_numpy(y_test.values.astype('float32')).float().to(device)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model_path = "/data1/deepLN/train/train_sagemaker_scripts/model/20250430_170444_9311_best_model.pth" # 모델 파일 경로
+model_path = "model/20250430_170444_9311_best_model.pth" # model path
 model = SimpleNN(X_test_tensor.shape[1]).to(device)
-model.load_state_dict(torch.load(model_path, map_location=device, weights_only=False))  # 모델 로드
+model.load_state_dict(torch.load(model_path, map_location=device, weights_only=False)) 
 model.eval()
 
-output_dir = '/data1/deepLN/train/train_sagemaker_scripts/output/new_agg_v27_modelA_train'
+output_dir = 'new_agg_v27_modelA_train'
 
 predict_prob_file = os.path.join(output_dir, f'kor_sfari_mssng_predict_prob.test_sample.oversample.tsv.gz')
 
-# 3. 테스트 데이터 평가 및 결과 저장
-if predict_prob_file:  # args는 argparse 등으로 전달된 예측 파일 경로
+if predict_prob_file:
     with torch.no_grad():
-        # 모델로 예측 수행
         outputs = model(X_test_tensor).squeeze()
-        y_pred_prob = sigmoid(outputs).cpu().numpy()  # 확률 계산
-        y_pred_test = (y_pred_prob >= 0.5).astype(int)  # 이진 분류 기준 (0.5)
+        y_pred_prob = sigmoid(outputs).cpu().numpy() 
+        y_pred_test = (y_pred_prob >= 0.5).astype(int) 
 
         # 결과를 DataFrame으로 저장
         results_df = pd.DataFrame({
-            'SAMPLE': sample_ids,  # 샘플 ID
+            'SAMPLE': sample_ids, 
             'TrueLabel': y_test_tensor.cpu().numpy(),
             'PredictedLabel': y_pred_test,
             'PredictedProbability': y_pred_prob
@@ -141,7 +139,7 @@ if predict_prob_file:  # args는 argparse 등으로 전달된 예측 파일 경�
         print(f"Accuracy: {accuracy:.4f}")
         print(f"F1 Score: {f1:.4f}")
 
-        # TSV 파일로 저장
+        
         results_df.to_csv(predict_prob_file, sep='\t', index=False)
         print(f"Predict probability saved to {predict_prob_file}", flush=True)
         
@@ -223,7 +221,7 @@ num_p=30
 permutation_split=None
 permutation_block=None
 importance_method='shap'
-output_dir='/data1/deepLN/train/train_sagemaker_scripts/output/new_agg_v27_modelA_train'
+output_dir='new_agg_v27_modelA_train'
 feature_importance_file=os.path.join(output_dir, f'kor_sfari_mssng.feature_importance.test_sample.shap.tsv.gz')
 
 feature_importance = calculate_importance(
@@ -249,7 +247,7 @@ mean_shap_df.to_csv(mean_feature_importance_file, sep='\t', index=False, compres
 
 
 
-zarr_path = '/data1/deepLN/train/data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v27.modelB_train.zarr'
+zarr_path = 'data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v27.modelB_train.zarr'
 
 root = zarr.open(zarr_path, mode='r')
 header = [name.replace(',', '').replace(' ', '_') for name in list(root['metadata'].attrs['columns'])]
@@ -259,7 +257,7 @@ header_index = {col: idx for idx, col in enumerate(header)}
 
 df1 = pd.DataFrame(data, columns=header)
 
-zarr_path = '/data1/deepLN/train/data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v27.modelB_test.zarr'
+zarr_path = 'data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v27.modelB_test.zarr'
 
 root = zarr.open(zarr_path, mode='r')
 header = [name.replace(',', '').replace(' ', '_') for name in list(root['metadata'].attrs['columns'])]
@@ -288,7 +286,7 @@ y_test_tensor = torch.from_numpy(y_test.values.astype('float32')).float().to(dev
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = SimpleNN(X_test_tensor.shape[1]).to(device)
-model.load_state_dict(torch.load(model_path, map_location=device, weights_only=False))  # 모델 로드
+model.load_state_dict(torch.load(model_path, map_location=device, weights_only=False)) 
 model.eval()
 
 use_feature_selection=True
@@ -297,7 +295,7 @@ num_p=30
 permutation_split=None
 permutation_block=None
 importance_method='shap'
-output_dir='/data1/deepLN/train/train_sagemaker_scripts/output/new_agg_v27_modelA_train'
+output_dir='new_agg_v27_modelA_train'
 feature_importance_file=os.path.join(output_dir, f'kor_sfari_mssng.feature_importance.modelB_sample.shap.tsv.gz')
 
 feature_importance = calculate_importance(
@@ -318,15 +316,13 @@ mean_shap_df.to_csv(mean_feature_importance_file, sep='\t', index=False, compres
 
 predict_prob_file = os.path.join(output_dir, f'kor_sfari_mssng_predict_prob.modelB_sample.oversample.tsv.gz')
 
-# 3. 테스트 데이터 평가 및 결과 저장
-if predict_prob_file:  # args는 argparse 등으로 전달된 예측 파일 경로
+if predict_prob_file: 
     with torch.no_grad():
-        # 모델로 예측 수행
         outputs = model(X_test_tensor).squeeze()
-        y_pred_prob = sigmoid(outputs).cpu().numpy()  # 확률 계산
-        y_pred_test = (y_pred_prob >= 0.5).astype(int)  # 이진 분류 기준 (0.5)
+        y_pred_prob = sigmoid(outputs).cpu().numpy() 
+        y_pred_test = (y_pred_prob >= 0.5).astype(int)  
 
-        # 결과를 DataFrame으로 저장
+       
         results_df = pd.DataFrame({
             'SAMPLE': sample_ids,  # 샘플 ID
             'TrueLabel': y_test_tensor.cpu().numpy(),
@@ -356,6 +352,6 @@ if predict_prob_file:  # args는 argparse 등으로 전달된 예측 파일 경�
         print(f"Accuracy: {accuracy:.4f}")
         print(f"F1 Score: {f1:.4f}")
 
-        # TSV 파일로 저장
+        
         results_df.to_csv(predict_prob_file, sep='\t', index=False)
         print(f"Predict probability saved to {predict_prob_file}", flush=True)
