@@ -31,17 +31,12 @@ python train_7L.py \
 
 ```
 python train_7L.py \
-  --zarr_path /path/to/your_dataset.zarr \
-  --model_dir /path/to/save/model \
+  --zarr_path kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v27.modelA_train.zarr \
+  --model_dir model \
   --wandb_key your_wandb_api_key \
   --log_file training_log.csv \
-  --feature_info_path feature_info.txt \
-  --group_list all noncoding coding \
+  --feature_info_path table.shap.feature_info_v28.20250121.txt \
+  --group_list Sig03 Sig02 Sig01 \
   --gpu \
-  --oversampling \
-  --calculate_importance \
-  --importance_method shap \
-  --predict_prob_file predict_probs.tsv.gz \
-  --feature_importance_file feature_importance.tsv.gz \
-  --sample_meta_path sample_meta.txt
+  --oversampling
 ```
