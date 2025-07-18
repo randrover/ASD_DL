@@ -15,14 +15,19 @@ git clone https://github.com/randrover/ASD_DL.git
 Install python modules in `requirements.txt`.
 Typical install time: 5–10 minutes on a standard machine with internet access.
 
-## 3. Example Usage (reproduction of the manuscript)
+## 3. Example Usage: Reproduction of Manuscript Results
+### Train Group A model
 ```
-python train_7L.py \
-  --zarr_path kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v27.modelA_train.zarr \
+python3 train_7L.py \
+  --zarr_path data/kor_sfari_mssng.coding_comb.noncoding_comb.new_agg.v27.modelA_train.zarr \
   --model_dir model \
+  --epochs 500 \
+  --batch_size 32 \
+  --learning_rate 0.000001 \
+  --threshold 0.5 \
   --wandb_key your_wandb_api_key \
   --log_file training_log.csv \
-  --feature_info_path table.shap.feature_info_v28.20250121.txt \
+  --feature_info_path data/table.shap.feature_info_v28.20250121.txt \
   --group_list Sig03 Sig02 Sig01 \
   --gpu \
   --oversampling
@@ -34,6 +39,16 @@ python train_7L.py \
   - (If applicable) Prediction probabilities and SHAP feature importance files
 - Expected runtime:
   - ~5 minutes with GPU
+
+### SHAP value calculation for test sets (Group A & B)
+```
+python3 train/calculate_shap.py
+```
+
+### Group B model training
+```
+train/model_train.py
+```
 
 ## 4. Instructions for Use on Custom Data
 - Prepare input data in Zarr format with the same structure as example_input/demo_dataset.zarr
